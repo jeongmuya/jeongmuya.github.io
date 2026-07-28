@@ -1,46 +1,513 @@
+
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jeongmu Apps</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="정무가 만든 iOS 앱을 소개합니다.">
+  <meta name="theme-color" content="#f4f1e8">
+  <title>Jeongmu Apps — Small apps, thoughtfully made.</title>
   <style>
+    :root {
+      --ink: #171714;
+      --paper: #f4f1e8;
+      --line: #d2cec2;
+      --green: #245a47;
+      --yellow: #e8ff45;
+      --orange: #ff6846;
+      --muted: #6d6a61;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 48px 20px;
-      color: #1f2937;
-      line-height: 1.6;
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.5;
     }
-    h1 { font-size: 32px; }
-    .app {
-      border-top: 1px solid #e5e7eb;
-      padding: 24px 0;
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(calc(100% - 40px), var(--max));
+      margin-inline: auto;
     }
-    a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 600;
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(244, 241, 232, .88);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .logo::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 9px;
+      background: var(--orange);
+      border-radius: 50%;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: .8rem;
+      font-weight: 750;
+    }
+
+    .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    .hero {
+      min-height: 76vh;
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      align-items: end;
+      gap: 50px;
+      padding: 100px 0 78px;
+    }
+
+    .eyebrow {
+      margin: 0 0 28px;
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(4rem, 10vw, 9rem);
+      font-weight: 900;
+      line-height: .83;
+      letter-spacing: -.085em;
+    }
+
+    h1 em {
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
+    .hero-copy {
+      align-self: end;
+      padding-bottom: 5px;
+    }
+
+    .hero-copy p {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      word-break: keep-all;
+    }
+
+    .arrow-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .82rem;
+      font-weight: 850;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .arrow-link span {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 50%;
+      transition: transform .2s ease;
+    }
+
+    .arrow-link:hover span { transform: translate(3px, -3px); }
+
+    .marquee {
+      overflow: hidden;
+      border-block: 1px solid var(--ink);
+      background: var(--yellow);
+    }
+
+    .marquee-track {
+      width: max-content;
+      display: flex;
+      padding: 13px 0;
+      animation: move 24s linear infinite;
+      font-size: .77rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .marquee span { padding-right: 48px; }
+
+    main section { padding: 120px 0; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 52px;
+    }
+
+    .section-kicker {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 5.4rem);
+      line-height: .92;
+      letter-spacing: -.065em;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .app-card {
+      position: relative;
+      min-height: 580px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 22px 60px rgba(23, 23, 20, .12);
+    }
+
+    .app-card.tendon {
+      color: white;
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .app-card.sixseven {
+      color: white;
+      background: #111;
+      border-color: #111;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: .73rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--yellow);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(232, 255, 69, .8);
+    }
+
+    .visual {
+      min-height: 255px;
+      display: grid;
+      place-items: center;
+      margin: 44px 0 34px;
+    }
+
+    .timer {
+      width: 210px;
+      height: 210px;
+      display: grid;
+      place-items: center;
+      border: 18px solid rgba(255, 255, 255, .16);
+      border-top-color: var(--yellow);
+      border-radius: 50%;
+      font-size: 3.9rem;
+      font-weight: 900;
+      letter-spacing: -.08em;
+      transform: rotate(-12deg);
+    }
+
+    .timer span { transform: rotate(12deg); }
+
+    .wave {
+      position: relative;
+      font-size: 8.5rem;
+      line-height: 1;
+      filter: drop-shadow(20px 24px 0 rgba(232, 255, 69, .15));
+      animation: wave 1.9s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    .card-copy { margin-top: auto; }
+
+    .card-copy h3 {
+      margin: 0;
+      font-size: clamp(2.6rem, 5vw, 4.3rem);
+      line-height: .95;
+      letter-spacing: -.06em;
+    }
+
+    .card-copy p {
+      max-width: 420px;
+      margin: 16px 0 26px;
+      color: rgba(255, 255, 255, .66);
+      word-break: keep-all;
+    }
+
+    .card-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, .2);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .card-link b { font-size: 1.25rem; transition: transform .2s ease; }
+    .app-card:hover .card-link b { transform: translate(4px, -4px); }
+
+    .about {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 80px;
+      border-top: 1px solid var(--line);
+    }
+
+    .about p {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.2rem, 2.4vw, 2rem);
+      line-height: 1.45;
+      letter-spacing: -.03em;
+      word-break: keep-all;
+    }
+
+    .about strong { color: var(--ink); }
+
+    footer {
+      color: white;
+      background: var(--ink);
+      padding: 76px 0 34px;
+    }
+
+    .footer-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+    }
+
+    .footer-main h2 { max-width: 700px; }
+
+    .mail {
+      display: inline-block;
+      padding: 14px 20px;
+      color: var(--ink);
+      background: var(--yellow);
+      border-radius: 100px;
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 90px;
+      padding-top: 22px;
+      color: rgba(255,255,255,.5);
+      border-top: 1px solid rgba(255,255,255,.15);
+      font-size: .73rem;
+    }
+
+    @keyframes move { to { transform: translateX(-50%); } }
+    @keyframes wave {
+      0%, 100% { transform: rotate(-7deg); }
+      50% { transform: rotate(9deg) translateY(-8px); }
+    }
+
+    @media (max-width: 760px) {
+      .hero { min-height: auto; grid-template-columns: 1fr; padding: 80px 0 70px; }
+      .hero-copy { max-width: 500px; }
+      .apps { grid-template-columns: 1fr; }
+      .app-card { min-height: 540px; }
+      .about { grid-template-columns: 1fr; gap: 30px; }
+      .footer-main { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { width: min(calc(100% - 26px), var(--max)); }
+      .nav-links a:first-child { display: none; }
+      h1 { font-size: 4rem; }
+      main section { padding: 88px 0; }
+      .section-head { align-items: start; flex-direction: column; }
+      .app-card { min-height: 510px; padding: 25px; border-radius: 18px; }
+      .visual { min-height: 220px; margin-block: 30px; }
+      .timer { width: 180px; height: 180px; font-size: 3.2rem; }
+      .wave { font-size: 7.4rem; }
+      .footer-bottom { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Jeongmu Apps</h1>
-  <p>Apps developed by Jeongmu Yang.</p>
+  <header>
+    <nav class="wrap" aria-label="주요 메뉴">
+      <a class="logo" href="/">JEONGMU APPS</a>
+      <div class="nav-links">
+        <a href="#apps">Apps</a>
+        <a href="https://github.com/jeongmuya" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </div>
+    </nav>
+  </header>
 
-  <section class="app">
-    <h2>Tendon10</h2>
-    <p>A minimal finger training timer for climbers.</p>
-    <a href="/tendon10/">View Tendon10 support page</a>
-  </section>
+  <main>
+    <section class="hero wrap">
+      <div>
+        <p class="eyebrow">Independent iOS Developer</p>
+        <h1>Small apps,<br><em>thoughtfully</em><br>made.</h1>
+      </div>
+      <div class="hero-copy">
+        <p>일상의 작은 순간을 더 즐겁고 유용하게 만드는 iOS 앱을 만듭니다. 단순한 사용법, 선명한 목적, 기분 좋은 경험을 중요하게 생각합니다.</p>
+        <a class="arrow-link" href="#apps"><span>↓</span> 앱 둘러보기</a>
+      </div>
+    </section>
 
-  <section class="app">
-    <h2>SixSeven</h2>
-    <p>A simple number puzzle game.</p>
-    <a href="/sixseven/">View SixSeven support page</a>
-  </section>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Designed in Seoul</span><span>● Built for iPhone</span><span>● Simple by design</span><span>● Privacy first</span>
+        <span>Designed in Seoul</span><span>● Built for iPhone</span><span>● Simple by design</span><span>● Privacy first</span>
+      </div>
+    </div>
 
-  <p>Support: <a href="mailto:jeongmuya@gmail.com">jeongmuya@gmail.com</a></p>
+    <section class="wrap" id="apps">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Selected work</p>
+          <h2>만든 앱들</h2>
+        </div>
+        <span class="count">02 APPS · AND COUNTING</span>
+      </div>
+
+      <div class="apps">
+        <a class="app-card tendon" href="/tendon10/" aria-label="Tendon10 소개 페이지 보기">
+          <div class="card-top">
+            <span>01 / Training</span>
+            <span class="status">Available</span>
+          </div>
+          <div class="visual" aria-hidden="true">
+            <div class="timer"><span>10:00</span></div>
+          </div>
+          <div class="card-copy">
+            <h3>Tendon10</h3>
+            <p>클라이머를 위한 미니멀 손가락 트레이닝 타이머. 운동 10초와 휴식 50초를 직관적으로 안내합니다.</p>
+            <span class="card-link">앱 자세히 보기 <b>↗</b></span>
+          </div>
+        </a>
+
+        <a class="app-card sixseven" href="/SixSeven/" aria-label="SixSeven 소개 페이지 보기">
+          <div class="card-top">
+            <span>02 / Game</span>
+            <span class="status">Open source</span>
+          </div>
+          <div class="visual" aria-hidden="true">
+            <div class="wave">✋</div>
+          </div>
+          <div class="card-copy">
+            <h3>SixSeven</h3>
+            <p>Apple Vision으로 손동작을 인식하는 핸드 웨이브 챌린지. 손을 번갈아 들며 제한 시간 안에 최고 기록에 도전하세요.</p>
+            <span class="card-link">앱 자세히 보기 <b>↗</b></span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="about wrap">
+      <div>
+        <p class="section-kicker">About</p>
+        <h2>정무</h2>
+      </div>
+      <p><strong>좋은 앱은 설명 없이도 사용할 수 있어야 한다고 믿습니다.</strong> Swift와 SwiftUI로 작지만 완성도 높은 제품을 만들고, 사용자의 시간과 개인정보를 존중합니다.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-main">
+        <h2>새로운 앱을<br>계속 만들고 있어요.</h2>
+        <a class="mail" href="mailto:jeongmuya@gmail.com">jeongmuya@gmail.com</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 JEONGMU APPS</span>
+        <span>DESIGNED &amp; BUILT BY JEONGMU YANG</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
