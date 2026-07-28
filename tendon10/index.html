@@ -1,46 +1,108 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jeongmu Apps</title>
+  <title>Tendon10</title>
   <style>
     body {
+      margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 48px 20px;
-      color: #1f2937;
+      background: #050505;
+      color: #f5f5f5;
       line-height: 1.6;
     }
-    h1 { font-size: 32px; }
-    .app {
-      border-top: 1px solid #e5e7eb;
-      padding: 24px 0;
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px 24px;
     }
+
+    .eyebrow {
+      color: #ff7a1a;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 12px 0 16px;
+      font-size: 56px;
+      line-height: 1;
+    }
+
+    p {
+      color: #c8c8c8;
+      font-size: 18px;
+    }
+
+    section {
+      margin-top: 44px;
+      padding-top: 28px;
+      border-top: 1px solid #242424;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      padding-left: 20px;
+      color: #d8d8d8;
+    }
+
     a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 600;
+      color: #ff8a2a;
+    }
+
+    .footer {
+      margin-top: 56px;
+      color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <h1>Jeongmu Apps</h1>
-  <p>Apps developed by Jeongmu Yang.</p>
+  <main>
+    <div class="eyebrow">Climbing Finger Training</div>
+    <h1>Tendon10</h1>
+    <p>
+      Tendon10 is a minimal finger training timer for climbers.
+      It helps you follow a simple 10-minute routine for hangboard or no-hang training.
+    </p>
 
-  <section class="app">
-    <h2>Tendon10</h2>
-    <p>A minimal finger training timer for climbers.</p>
-    <a href="/tendon10/">View Tendon10 support page</a>
-  </section>
+    <section>
+      <h2>Training Routine</h2>
+      <ul>
+        <li>10 seconds of work</li>
+        <li>50 seconds of rest</li>
+        <li>10 total sets</li>
+        <li>Local training history tracking</li>
+      </ul>
+    </section>
 
-  <section class="app">
-    <h2>SixSeven</h2>
-    <p>A simple number puzzle game.</p>
-    <a href="/sixseven/">View SixSeven support page</a>
-  </section>
+    <section>
+      <h2>Privacy</h2>
+      <p>
+        Training history is stored locally on the device.
+        Tendon10 does not require sign-in or server synchronization.
+      </p>
+    </section>
 
-  <p>Support: <a href="mailto:jeongmuya@gmail.com">jeongmuya@gmail.com</a></p>
+    <section>
+      <h2>Support</h2>
+      <p>
+        For support, contact
+        <a href="mailto:jeongmuya@gmail.com">jeongmuya@gmail.com</a>.
+      </p>
+    </section>
+
+    <div class="footer">
+      © 2026 Jeongmu Yang. Tendon10.
+    </div>
+  </main>
 </body>
 </html>
