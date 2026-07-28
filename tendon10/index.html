@@ -1,108 +1,646 @@
+
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tendon10</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="클라이머를 위한 손가락 트레이닝 앱 Tendon10. 10초 운동과 50초 회복을 명확하게 안내합니다.">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="Tendon10 — Climbing Finger Training">
+  <meta property="og:description" content="10초의 집중. 50초의 회복. 더 안전하고 꾸준한 손가락 훈련.">
+  <meta property="og:type" content="website">
+  <title>Tendon10 — Climbing Finger Training</title>
+  <link rel="icon" href="./assets/icon.png">
   <style>
+    :root {
+      --black: #000;
+      --base: #070a0b;
+      --surface: #101416;
+      --surface-2: #171c1f;
+      --line: #273036;
+      --line-strong: #3a464e;
+      --white: #f5f7f8;
+      --soft: #b4bdc4;
+      --muted: #7f8a93;
+      --lime: #b8ff2c;
+      --lime-dark: #9be31f;
+      --orange: #ff7a1a;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #050505;
-      color: #f5f5f5;
-      line-height: 1.6;
+      color: var(--white);
+      background: var(--black);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
-    main {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 72px 24px;
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    figure { margin: 0; }
+
+    .wrap {
+      width: min(calc(100% - 48px), var(--max));
+      margin-inline: auto;
     }
 
-    .eyebrow {
-      color: #ff7a1a;
+    .skip {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 100;
+      padding: 10px 14px;
+      color: var(--black);
+      background: var(--lime);
+      transform: translateY(-160%);
+    }
+    .skip:focus { transform: translateY(0); }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgb(0 0 0 / 82%);
+      border-bottom: 1px solid rgb(255 255 255 / 9%);
+      backdrop-filter: blur(18px);
+    }
+
+    nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 900;
+      letter-spacing: -.045em;
+    }
+
+    .logo-ring {
+      width: 18px;
+      height: 18px;
+      border: 4px solid var(--white);
+      border-right-color: var(--lime);
+      border-radius: 50%;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--soft);
+      font-size: .75rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .hero {
+      position: relative;
+      min-height: calc(100svh - 72px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 30px;
+      overflow: hidden;
+      padding-block: 72px;
+    }
+
+    .hero-copy { position: relative; z-index: 2; }
+
+    .eyebrow,
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      font-size: 13px;
+    }
+
+    .eyebrow::before,
+    .kicker::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--lime);
+      border-radius: 50%;
+      box-shadow: 0 0 16px rgb(184 255 44 / 55%);
     }
 
     h1 {
-      margin: 12px 0 16px;
-      font-size: 56px;
-      line-height: 1;
+      margin: 0;
+      font-size: clamp(4.4rem, 9.8vw, 9rem);
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: -.09em;
     }
 
-    p {
-      color: #c8c8c8;
-      font-size: 18px;
+    h1 span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--muted);
     }
 
-    section {
-      margin-top: 44px;
-      padding-top: 28px;
-      border-top: 1px solid #242424;
+    .hero-description {
+      max-width: 520px;
+      margin: 40px 0 0;
+      color: var(--soft);
+      font-size: clamp(1rem, 1.7vw, 1.2rem);
+      word-break: keep-all;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 20px;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      color: var(--soft);
+      font-size: .78rem;
+      font-weight: 800;
+      transition: border-color .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .button.primary {
+      color: #071006;
+      background: var(--lime);
+      border-color: var(--lime);
+    }
+    .button:hover { color: var(--white); border-color: var(--white); transform: translateY(-2px); }
+    .button.primary:hover { color: #071006; border-color: var(--lime); }
+
+    .timer-visual {
+      position: relative;
+      width: min(42vw, 520px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      justify-self: end;
+    }
+
+    .timer-visual::before,
+    .timer-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .timer-visual::before {
+      inset: 5%;
+      background: repeating-conic-gradient(
+        from -90deg,
+        var(--white) 0deg 1deg,
+        transparent 1deg 5deg
+      );
+      mask: radial-gradient(circle, transparent 0 72%, #000 72.5%);
+      opacity: .78;
+    }
+
+    .timer-visual::after {
+      inset: 18%;
+      border: 1px solid var(--line);
+      box-shadow: 0 0 90px rgb(184 255 44 / 8%);
+    }
+
+    .timer-center { position: relative; z-index: 1; text-align: center; }
+    .timer-center b {
+      display: block;
+      font-size: clamp(4rem, 8vw, 7.5rem);
+      line-height: .9;
+      letter-spacing: -.08em;
+    }
+    .timer-center span {
+      display: block;
+      margin-top: 15px;
+      color: var(--lime);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+    }
+
+    .status-bar {
+      border-block: 1px solid var(--line);
+      background: var(--base);
+    }
+
+    .status-inner {
+      min-height: 78px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-right: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .status-item:first-child { border-left: 1px solid var(--line); }
+    .status-item b { color: var(--white); font-size: 1rem; letter-spacing: -.02em; }
+
+    section.content { padding-block: 128px; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 58px;
     }
 
     h2 {
-      font-size: 24px;
-      margin-bottom: 12px;
+      margin: 0;
+      font-size: clamp(3rem, 6.5vw, 6.2rem);
+      line-height: .9;
+      letter-spacing: -.07em;
     }
 
-    ul {
-      padding-left: 20px;
-      color: #d8d8d8;
+    .section-note {
+      max-width: 340px;
+      margin: 0;
+      color: var(--muted);
+      word-break: keep-all;
     }
 
-    a {
-      color: #ff8a2a;
+    .protocol-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--line);
     }
 
-    .footer {
-      margin-top: 56px;
-      color: #777;
-      font-size: 14px;
+    .protocol-card {
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      background: var(--surface);
+    }
+
+    .protocol-card.featured { background: var(--lime); color: #071006; }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .featured .card-top { color: rgb(7 16 6 / 55%); }
+
+    .metric {
+      margin: auto 0;
+      font-size: clamp(4rem, 7vw, 7.5rem);
+      font-weight: 900;
+      line-height: .8;
+      letter-spacing: -.09em;
+    }
+    .metric small { font-size: .17em; letter-spacing: .05em; }
+
+    .protocol-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.45rem;
+      letter-spacing: -.04em;
+    }
+    .protocol-card p { margin: 0; color: var(--muted); word-break: keep-all; }
+    .featured p { color: rgb(7 16 6 / 62%); }
+
+    .showcase {
+      position: relative;
+      overflow: hidden;
+      background: var(--surface);
+      border-block: 1px solid var(--line);
+    }
+
+    .showcase::before {
+      content: "TENDON10";
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      color: rgb(255 255 255 / 2.5%);
+      font-size: 20vw;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.09em;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .showcase-layout {
+      position: relative;
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      align-items: center;
+      gap: 90px;
+      min-height: 850px;
+      padding-block: 110px;
+    }
+
+    .showcase-copy p:last-child {
+      max-width: 430px;
+      margin: 28px 0 0;
+      color: var(--soft);
+      font-size: 1.08rem;
+      word-break: keep-all;
+    }
+
+    .phones {
+      min-height: 610px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .phone {
+      width: min(31%, 220px);
+      overflow: hidden;
+      border: 6px solid #050505;
+      border-radius: 28px;
+      background: #000;
+      box-shadow: 0 28px 80px rgb(0 0 0 / 48%);
+    }
+    .phone:first-child { transform: translateY(38px) rotate(-4deg); }
+    .phone:nth-child(2) { width: min(35%, 250px); position: relative; z-index: 2; }
+    .phone:last-child { transform: translateY(38px) rotate(4deg); }
+    .phone img { width: 100%; aspect-ratio: 1242 / 2688; object-fit: cover; }
+
+    .principles {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 90px;
+    }
+
+    .principle-list { border-top: 1px solid var(--line-strong); }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      padding-block: 25px;
+      border-bottom: 1px solid var(--line);
+    }
+    .principle span {
+      color: var(--lime);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+    }
+    .principle h3 { margin: 0 0 8px; font-size: 1.45rem; letter-spacing: -.035em; }
+    .principle p { margin: 0; color: var(--muted); word-break: keep-all; }
+
+    .cta {
+      padding-block: 110px;
+      background: var(--lime);
+      color: #071006;
+    }
+
+    .cta-inner {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 50px;
+    }
+    .cta .kicker { color: rgb(7 16 6 / 58%); }
+    .cta .kicker::before { background: #071006; box-shadow: none; }
+    .cta h2 { max-width: 820px; }
+    .cta .button { flex: 0 0 auto; color: var(--white); background: #071006; border-color: #071006; }
+
+    footer {
+      padding-block: 34px;
+      color: var(--muted);
+      background: var(--black);
+      font-size: .7rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a:hover { color: var(--white); }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 90px; }
+      .timer-visual { width: min(78vw, 500px); justify-self: center; }
+      .status-inner { grid-template-columns: repeat(2, 1fr); }
+      .status-item { min-height: 68px; border-bottom: 1px solid var(--line); }
+      .protocol-grid { grid-template-columns: 1fr; }
+      .protocol-card { min-height: 300px; }
+      .showcase-layout { grid-template-columns: 1fr; gap: 40px; }
+      .showcase-copy { max-width: 650px; }
+      .principles { grid-template-columns: 1fr; gap: 46px; }
+      .cta-inner { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .nav-links a:first-child { display: none; }
+      .hero { min-height: auto; }
+      h1 { font-size: clamp(4rem, 21vw, 6.3rem); }
+      .hero-description { margin-top: 30px; }
+      section.content { padding-block: 88px; }
+      .section-head { align-items: start; flex-direction: column; }
+      .protocol-card { min-height: 280px; padding: 24px; }
+      .showcase-layout { min-height: auto; padding-block: 90px; }
+      .phones { min-height: 440px; gap: 8px; }
+      .phone { width: 31%; border-width: 4px; border-radius: 18px; }
+      .phone:nth-child(2) { width: 36%; }
+      .cta { padding-block: 88px; }
+      .footer-inner { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <div class="eyebrow">Climbing Finger Training</div>
-    <h1>Tendon10</h1>
-    <p>
-      Tendon10 is a minimal finger training timer for climbers.
-      It helps you follow a simple 10-minute routine for hangboard or no-hang training.
-    </p>
+  <a class="skip" href="#main">본문 바로가기</a>
 
-    <section>
-      <h2>Training Routine</h2>
-      <ul>
-        <li>10 seconds of work</li>
-        <li>50 seconds of rest</li>
-        <li>10 total sets</li>
-        <li>Local training history tracking</li>
-      </ul>
+  <header>
+    <nav class="wrap" aria-label="주요 메뉴">
+      <a class="logo" href="#top" aria-label="Tendon10 홈">
+        <span class="logo-ring" aria-hidden="true"></span>
+        TENDON10
+      </a>
+      <div class="nav-links">
+        <a href="#protocol">트레이닝</a>
+        <a href="#app">앱 화면</a>
+        <a href="https://github.com/jeongmuya/Tendo10" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Climbing finger training</p>
+        <h1>TRAIN.<br><span>REST.</span><br>REPEAT.</h1>
+        <p class="hero-description">10초의 집중과 50초의 회복. Tendon10은 클라이머가 손가락 상태를 살피며 꾸준히 훈련하도록 돕는 미니멀 타이머입니다.</p>
+        <div class="actions">
+          <a class="button primary" href="#protocol">트레이닝 알아보기</a>
+          <a class="button" href="https://github.com/jeongmuya/Tendo10" target="_blank" rel="noreferrer">소스 코드 보기 ↗</a>
+        </div>
+      </div>
+
+      <div class="timer-visual" aria-label="10초 운동 타이머를 표현한 그래픽">
+        <div class="timer-center">
+          <b>10</b>
+          <span>SECONDS / WORK</span>
+        </div>
+      </div>
     </section>
 
-    <section>
-      <h2>Privacy</h2>
-      <p>
-        Training history is stored locally on the device.
-        Tendon10 does not require sign-in or server synchronization.
-      </p>
-    </section>
-
-    <section>
-      <h2>Support</h2>
-      <p>
-        For support, contact
-        <a href="mailto:jeongmuya@gmail.com">jeongmuya@gmail.com</a>.
-      </p>
-    </section>
-
-    <div class="footer">
-      © 2026 Jeongmu Yang. Tendon10.
+    <div class="status-bar" aria-label="Tendon10 훈련 구성">
+      <div class="status-inner wrap">
+        <div class="status-item"><b>10</b> sec work</div>
+        <div class="status-item"><b>50</b> sec rest</div>
+        <div class="status-item"><b>10</b> total sets</div>
+        <div class="status-item"><b>2</b> daily sessions</div>
+      </div>
     </div>
+
+    <section class="content wrap" id="protocol">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Training protocol</p>
+          <h2>하나의 리듬.<br>명확한 훈련.</h2>
+        </div>
+        <p class="section-note">복잡한 설정은 빼고, 운동과 회복에 필요한 안내만 정확하게 남겼습니다.</p>
+      </div>
+
+      <div class="protocol-grid">
+        <article class="protocol-card">
+          <div class="card-top"><span>01 / Load</span><span>Focus</span></div>
+          <div class="metric">10<small> SEC</small></div>
+          <div>
+            <h3>집중해서 힘주기</h3>
+            <p>정해진 손가락과 그립으로 짧고 정확하게 부하를 줍니다.</p>
+          </div>
+        </article>
+        <article class="protocol-card featured">
+          <div class="card-top"><span>02 / Recover</span><span>Breathe</span></div>
+          <div class="metric">50<small> SEC</small></div>
+          <div>
+            <h3>충분히 회복하기</h3>
+            <p>다음 세트를 위해 힘을 빼고 손가락 상태를 확인합니다.</p>
+          </div>
+        </article>
+        <article class="protocol-card">
+          <div class="card-top"><span>03 / Repeat</span><span>Complete</span></div>
+          <div class="metric">10<small> SETS</small></div>
+          <div>
+            <h3>꾸준하게 반복하기</h3>
+            <p>소리와 진동 안내를 따라 한 세션을 흐름 있게 마칩니다.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="showcase" id="app">
+      <div class="showcase-layout wrap">
+        <div class="showcase-copy">
+          <p class="kicker">Inside Tendon10</p>
+          <h2>훈련 중에는<br>훈련만.</h2>
+          <p>검은 화면 위에 시간, 세트, 다음 동작만 선명하게 보여줍니다. 손이 바쁜 순간에도 한눈에 읽히는 인터페이스입니다.</p>
+        </div>
+        <div class="phones">
+          <figure class="phone"><img src="./assets/store-screenshots/ios-65/iphone-65-02.png" alt="Tendon10 훈련 준비 화면" loading="lazy"></figure>
+          <figure class="phone"><img src="./assets/store-screenshots/ios-65/iphone-65-03.png" alt="Tendon10 원형 훈련 타이머 화면" loading="lazy"></figure>
+          <figure class="phone"><img src="./assets/store-screenshots/ios-65/iphone-65-04.png" alt="Tendon10 훈련 기록 화면" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="content wrap">
+      <div class="principles">
+        <div>
+          <p class="kicker">Designed with intent</p>
+          <h2>더 안전한<br>습관을 위해.</h2>
+        </div>
+        <div class="principle-list">
+          <article class="principle">
+            <span>01</span>
+            <div>
+              <h3>소리와 진동 안내</h3>
+              <p>화면을 계속 보지 않아도 시작과 종료, 다음 동작을 놓치지 않습니다.</p>
+            </div>
+          </article>
+          <article class="principle">
+            <span>02</span>
+            <div>
+              <h3>하루 훈련 흐름 관리</h3>
+              <p>첫 세션을 마치고 충분한 회복 뒤 두 번째 훈련을 이어갈 수 있습니다.</p>
+            </div>
+          </article>
+          <article class="principle">
+            <span>03</span>
+            <div>
+              <h3>훈련과 통증 기록</h3>
+              <p>완료한 세션과 몸의 반응을 남겨 무리하지 않는 훈련 패턴을 만듭니다.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="cta-inner wrap">
+        <div>
+          <p class="kicker">Open source project</p>
+          <h2>강해지는 것보다<br>다치지 않는 것부터.</h2>
+        </div>
+        <a class="button" href="https://github.com/jeongmuya/Tendo10" target="_blank" rel="noreferrer">GitHub에서 보기 ↗</a>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="footer-inner wrap">
+      <span>© 2026 TENDON10 · BUILT FOR CLIMBERS</span>
+      <div class="footer-links">
+        <a href="./PRIVACY.md">개인정보 처리방침</a>
+        <a href="mailto:jeongmuya@gmail.com">문의하기</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
